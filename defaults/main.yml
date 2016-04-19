@@ -7,14 +7,7 @@ zookeeper_peers_nodes: "
 	{%- if zookeeper_peers is defined -%}
             {% for host in zookeeper_peers %}{{host}}:{{zookeeper_client_port}}{% if not loop.last %},{% endif %}{% endfor %}
 	{%- else -%}
-	    {%- set zookeeper_peers = [] -%}
-	    {%- for host in groups[zookeeper_server_group] -%}
-	      {%- if host not in zookeeper_peers -%}
-	        {%- set current_host = hostvars[host]['ansible_eth0']['ipv4']['address'] + ':' + zookeeper_client_port -%}
-	        zookeeper_peers.append(current_host)
-	      {%- endif -%}
-	    {%- endfor -%}
-	    {{ zookeeper_peers|join(',') }}
+            {%- for host in groups[zookeeper_server_group] -%}{{hostvars[host]['ansible_eth0']['ipv4']['address']}}:{{zookeeper_client_port}}{% if not loop.last %},{% endif %}{% endfor %} 
 	{%- endif -%}
 "
 
