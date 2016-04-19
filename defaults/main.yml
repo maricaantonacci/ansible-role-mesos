@@ -11,7 +11,7 @@ zookeeper_peers_nodes: "
 	    {%- for host in groups[zookeeper_server_group] -%}
 	      {%- if host not in zookeeper_peers -%}
 	        {%- set current_host = hostvars[host]['ansible_eth0']['ipv4']['address'] + ':' + zookeeper_client_port -%}
-	        {%- do zookeeper_peers.append(current_host) -%}
+	        zookeeper_peers.append(current_host)
 	      {%- endif -%}
 	    {%- endfor -%}
 	    {{ zookeeper_peers|join(',') }}
